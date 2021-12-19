@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+</head>
+
+<body>
+
+    <div class="mdc-layout-grid">
+        <h2 class="demo-title mdc-typography--headline2">Simple Library
+            <button id="addBook" class="mdc-button mdc-button--outlined" onclick="openForm()">
+                <span class="mdc-button__ripple"></span>
+                <span class="mdc-button__label">Add Book</span>
+            </button>
+            <div class="form-popup" id="addBookForm" style="display:none">
+                <form class="form-container">
+
+                    <label type="text"><b>Author</b></label>
+                    <input type="text" placeholder="Enter Author" id="Author" required>
+
+                    <label><b>Title</b></label>
+                    <input type="text" placeholder="Enter Title" id="Title" required>
+
+                    <label><b>#Pages</b></label>
+                    <input type="text" placeholder="Enter number of pages" id="Pages">
+
+                    <label><b>Read yet?</b></label>
+                    <select id="readyet">
+                        <option value="Yes" selected>Yes</option>
+                        <option value="No">No</option>
+                    </select>
+
+                    <button type="submit" onclick="closeForm()">Add Book</button>
+                </form>
+            </div>
+        </h2>
+
+        <div class="mdc-layout-grid__inner" id="grid">
+            <!-- 
+            <div class="mdc-layout-grid__cell mdc-layout-grid__cell--span-6" id="first">
+                <img class="mdc-image-list__image" src='https://upload.wikimedia.org/wikipedia/commons/9/92/Open_book_nae_02.svg' onerror="this.onerror=null;this.src='https://upload.wikimedia.org/wikipedia/commons/9/92/Open_book_nae_02.svg'" alt="text">
+                <span>Book data</span>
+                <button id="deleteBook" class="mdc-button mdc-button--outlined" onclick="deleteBook()">Delete Book</button>
+            </div>-->
+
+        </div>
+    </div>
+
+</body>
+
+</html>
