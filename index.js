@@ -31,8 +31,16 @@ function addBookToScreen(bookinfo) {
     let btnDiv = document.createElement("div");
     btnDiv.appendChild(btn);
 
+    let btn2 = document.createElement("button")
+    btn2.onclick = readBook;
+    btn2.innerHTML = "read?"
+    btn2.classList.add("mdc-button", "mdc-button--outlined")
+    let btn2Div = document.createElement("div");
+    btn2Div.appendChild(btn2);
+
     newDiv.appendChild(img);
     newDiv.appendChild(newContent);
+    newDiv.appendChild(btn2Div);
     newDiv.appendChild(btnDiv);
 
     let grid = document.getElementById("grid");
@@ -60,6 +68,7 @@ function closeForm() {
 
 function deleteBook() {}
 
+function readBook() {}
 
 function libToScreen() {
     if (localStorage.getItem("myLibrary") !== null) {
