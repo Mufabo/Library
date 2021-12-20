@@ -13,8 +13,16 @@ function info(book) {
 }
 
 let myLibrary = [];
+if (localStorage.getItem("myLibrary") !== null) {
+    myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+    console.log("myLibrary loaded");
+} else {
 
-function addBookToScreen(bookinfo) {
+    console.log("myLibrary created");
+}
+
+function addBookToScreen(book) {
+    let bookinfo = info(book);
     let newDiv = document.createElement("div");
     newDiv.classList.add("mdc-layout-grid__cell");
 
@@ -23,6 +31,7 @@ function addBookToScreen(bookinfo) {
 
     let newContent = document.createElement("div");
     newContent.appendChild(document.createTextNode(bookinfo));
+    //newContent.innerText = bookinfo;
 
     let btn = document.createElement("button")
     btn.onclick = deleteBook;
@@ -43,6 +52,8 @@ function addBookToScreen(bookinfo) {
     newDiv.appendChild(btn2Div);
     newDiv.appendChild(btnDiv);
 
+    newDiv.setAttribute("id", myLibrary.indexOf(book))
+
     let grid = document.getElementById("grid");
     grid.appendChild(newDiv);
 }
@@ -50,7 +61,7 @@ function addBookToScreen(bookinfo) {
 function addBookToLibrary(book) {
     myLibrary.push(book);
     localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
-    addBookToScreen(info(book));
+    addBookToScreen(book);
 }
 
 function openForm() {
@@ -66,17 +77,23 @@ function closeForm() {
     addBookToLibrary(book);
 }
 
-function deleteBook() {}
+function deleteBook(book) {
+    let indx = myLibrary.indexOf(book);
+    myLibrary.splice(indx, 1);
+    let grid = document.getElementById("grid");
+    grid.removeChild(document.getElementById(book.title + book.author + book.pages));
+}
 
-function readBook() {}
+function readBook() {
+    myLibrary[indx].read = !myLibrary[indx].read
+    let grid = document.getElementById("grid");
+    let div = document.getElementById(info(book));
+    div.querySelector("div").innerText = info(myLibrary[indx])
+}
 
 function libToScreen() {
-    if (localStorage.getItem("myLibrary") !== null) {
-        myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-        console.log("myLibrary loaded");
-    } else console.log("myLibrary created");
     for (let book of myLibrary) {
-        addBookToScreen(info(book));
+        addBookToScreen(book);
     }
 }
 
