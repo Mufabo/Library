@@ -12,7 +12,9 @@ Book.prototype.info = function() {
     return output;
 }
 
-let myLibrary = [];
+let myLibrary = localStorage.getItem("myLibrary");
+
+if (myLibrary === null) { myLibrary = []; }
 
 function addBookToScreen(bookinfo) {
     let newDiv = document.createElement("div");
@@ -33,13 +35,13 @@ function addBookToScreen(bookinfo) {
     newDiv.appendChild(btn);
 
     let grid = document.getElementById("grid");
-    grid.insertBefore(newDiv, null);
+    grid.appendChild(newDiv);
 }
 
 function addBookToLibrary(Book) {
     // do stuff here
     myLibrary.push(Book);
-
+    localStorage.setItem("myLibrary", myLibrary)
 }
 
 function openForm() {
@@ -53,17 +55,15 @@ function closeForm() {
         document.getElementById("Pages").value,
         document.getElementById("readyet").value);
     addBookToLibrary(book);
-    addBookToScreen(Book.info());
+    addBookToScreen(book.info());
 
 }
 
 function deleteBook() {}
 
-let hobbit = new Book("hobbit", "tolkien", "123", false);
-addBookToLibrary(hobbit);
-
 
 function libToScreen() {
+
     for (let book of myLibrary) {
         addBookToScreen(book.info());
     }
