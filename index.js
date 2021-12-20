@@ -12,9 +12,9 @@ Book.prototype.info = function() {
     return output;
 }
 
-let myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+let myLibrary = [];
 
-if (myLibrary === null) { myLibrary = []; }
+if (!localStorage.getItem("myLibrary") === null) { myLibrary = JSON.parse(localStorage.getItem("myLibrary")) }
 
 function addBookToScreen(bookinfo) {
     let newDiv = document.createElement("div");
@@ -38,10 +38,10 @@ function addBookToScreen(bookinfo) {
     grid.appendChild(newDiv);
 }
 
-function addBookToLibrary(Book) {
-    // do stuff here
-    myLibrary.push(Book);
+function addBookToLibrary(book) {
+    myLibrary.push(book);
     localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
+    addBookToScreen(book.info());
 }
 
 function openForm() {
@@ -55,15 +55,12 @@ function closeForm() {
         document.getElementById("Pages").value,
         document.getElementById("readyet").value);
     addBookToLibrary(book);
-    addBookToScreen(book.info());
-
 }
 
 function deleteBook() {}
 
 
 function libToScreen() {
-
     for (let book of myLibrary) {
         addBookToScreen(book.info());
     }
