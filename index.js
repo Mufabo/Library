@@ -12,7 +12,7 @@ Book.prototype.info = function() {
     return output;
 }
 
-let myLibrary = localStorage.getItem("myLibrary");
+let myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
 
 if (myLibrary === null) { myLibrary = []; }
 
@@ -41,7 +41,7 @@ function addBookToScreen(bookinfo) {
 function addBookToLibrary(Book) {
     // do stuff here
     myLibrary.push(Book);
-    localStorage.setItem("myLibrary", myLibrary)
+    localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
 }
 
 function openForm() {
