@@ -5,16 +5,14 @@ function Book(title, author, pages, read) {
     this.read = read; // boolean
 }
 
-Book.prototype.info = function() {
-    let output = this.title + ", " + this.author + ", " + this.pages + " pages, ";
-    if (this.read) output += " read"
+function info(book) {
+    let output = book.title + ", " + book.author + ", " + book.pages + " pages, ";
+    if (book.read === "Yes") output += " read"
     else output += " not yet read";
     return output;
 }
 
 let myLibrary = [];
-
-if (!localStorage.getItem("myLibrary") === null) { myLibrary = JSON.parse(localStorage.getItem("myLibrary")) }
 
 function addBookToScreen(bookinfo) {
     let newDiv = document.createElement("div");
@@ -23,16 +21,19 @@ function addBookToScreen(bookinfo) {
     let img = document.createElement("img");
     img.src = 'https://upload.wikimedia.org/wikipedia/commons/9/92/Open_book_nae_02.svg';
 
-    let newContent = document.createTextNode(bookinfo);
+    let newContent = document.createElement("div");
+    newContent.appendChild(document.createTextNode(bookinfo));
 
     let btn = document.createElement("button")
     btn.onclick = deleteBook;
     btn.innerHTML = "Delete Book"
     btn.classList.add("mdc-button", "mdc-button--outlined")
+    let btnDiv = document.createElement("div");
+    btnDiv.appendChild(btn);
 
     newDiv.appendChild(img);
     newDiv.appendChild(newContent);
-    newDiv.appendChild(btn);
+    newDiv.appendChild(btnDiv);
 
     let grid = document.getElementById("grid");
     grid.appendChild(newDiv);
@@ -41,7 +42,7 @@ function addBookToScreen(bookinfo) {
 function addBookToLibrary(book) {
     myLibrary.push(book);
     localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
-    addBookToScreen(book.info());
+    addBookToScreen(info(book));
 }
 
 function openForm() {
@@ -61,8 +62,12 @@ function deleteBook() {}
 
 
 function libToScreen() {
+    if (localStorage.getItem("myLibrary") !== null) {
+        myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+        console.log("myLibrary loaded");
+    } else console.log("myLibrary created");
     for (let book of myLibrary) {
-        addBookToScreen(book.info());
+        addBookToScreen(info(book));
     }
 }
 
