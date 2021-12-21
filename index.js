@@ -30,18 +30,18 @@ function addBookToScreen(book) {
     img.src = 'https://upload.wikimedia.org/wikipedia/commons/9/92/Open_book_nae_02.svg';
 
     let newContent = document.createElement("div");
-    newContent.appendChild(document.createTextNode(bookinfo));
+    newContent.setAttribute("id", "text");
+    let bookText = document.createTextNode(bookinfo)
+    newContent.appendChild(bookText);
     //newContent.innerText = bookinfo;
 
     let btn = document.createElement("button")
-    btn.onclick = deleteBook;
     btn.innerHTML = "Delete Book"
     btn.classList.add("mdc-button", "mdc-button--outlined")
     let btnDiv = document.createElement("div");
     btnDiv.appendChild(btn);
 
     let btn2 = document.createElement("button")
-    btn2.onclick = readBook;
     btn2.innerHTML = "read?"
     btn2.classList.add("mdc-button", "mdc-button--outlined")
     let btn2Div = document.createElement("div");
@@ -56,16 +56,17 @@ function addBookToScreen(book) {
 
     let grid = document.getElementById("grid");
     grid.appendChild(newDiv);
-}
 
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-    localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
-    addBookToScreen(book);
+    btn.onclick = deleteBook;
+    btn2.onclick = readBook;
 }
 
 function openForm() {
     document.getElementById("addBookForm").style.display = "inline";
+}
+
+function cancel() {
+    document.getElementById("addBookForm").style.display = "none";
 }
 
 function closeForm() {
@@ -74,21 +75,31 @@ function closeForm() {
         document.getElementById("Author").value,
         document.getElementById("Pages").value,
         document.getElementById("readyet").value);
-    addBookToLibrary(book);
+    myLibrary.push(book);
+    localStorage.setItem("myLibrary", JSON.stringify(myLibrary))
+    addBookToScreen(book);
 }
 
-function deleteBook(book) {
-    let indx = myLibrary.indexOf(book);
-    myLibrary.splice(indx, 1);
+function deleteBook() {
+    let inner_div = this.parentNode.parentNode;
+    myLibrary.splice(parseInt(inner_div.id), 1);
     let grid = document.getElementById("grid");
-    grid.removeChild(document.getElementById(book.title + book.author + book.pages));
+    grid.removeChild(document.getElementById(inner_div.id));
+
+    //update ids to match the new indices. TODO: Inefficient
+    let new_indx = 0;
+    for (let child of grid.children) {
+        child.setAttribute("id", new_indx)
+        new_indx += 1;
+    }
 }
 
 function readBook() {
-    myLibrary[indx].read = !myLibrary[indx].read
-    let grid = document.getElementById("grid");
-    let div = document.getElementById(info(book));
-    div.querySelector("div").innerText = info(myLibrary[indx])
+    let inner_div = this.parentNode.parentNode;
+    let book = myLibrary[parseInt(inner_div.id)];
+    if (book.read === "Yes") book.read = "No"
+    else book.read = "Yes";
+    document.getElementById(inner_div.id).querySelector("div").innerText = info(book);
 }
 
 function libToScreen() {
